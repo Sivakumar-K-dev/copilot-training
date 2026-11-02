@@ -1,8 +1,10 @@
 // Day 6 (Dev): ask Copilot to document this module, then CHECK the docstring against the real behavior.
 
 /**
- * Sliding-window rate limiter. Never throws. Allows up to `max` requests
- * per `windowMs` for each key and always returns a result object.
+ * Creates a fixed-window rate limiter (window resets on first request after expiry, not a true sliding window).
+ * @param {{max: number, windowMs: number, now?: () => number}} options - request cap, window size in ms, optional clock override.
+ * @returns {(key: string) => {allowed: boolean, remaining: number}} check(key) - never throws; always returns whether the request is allowed and requests remaining in the current window.
+ * @throws {TypeError} If called with no `options` argument, e.g. `createRateLimiter()`.
  */
 function createRateLimiter(options) {
   const { max, windowMs, now = Date.now } = options;
